@@ -1,0 +1,32 @@
+{
+  "name": "morse-apis",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon dist/index.js"
+  },
+  "author": "snipextt",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.1213.0",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.0.2",
+    "express": "^4.18.1",
+    "express-fileupload": "^1.4.0",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^6.6.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.2",
+    "@types/cors": "^2.8.12",
+    "@types/express": "^4.17.13",
+    "@types/express-fileupload": "^1.4.1",
+    "@types/jsonwebtoken": "^8.5.9",
+    "@types/uuid": "^8.3.4",
+    "nodemon": "^2.0.19"
+  }
+}

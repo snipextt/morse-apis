@@ -13,12 +13,12 @@ export default async function login(req: Request, res: Response) {
 
   const user = await User.findOne({ username });
   if (!user) {
-    return res.status(400).json({ message: 'User does not exist' });
+    return res.status(400).json({ msg: 'User does not exist' });
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return res.status(400).json({ message: 'Invalid credentials' });
+    return res.status(400).json({ msg: 'Invalid credentials' });
   }
 
   const payload = {
@@ -28,7 +28,7 @@ export default async function login(req: Request, res: Response) {
   };
 
   jwt.sign(payload, config.get('jwtSecret'), {}, (err, token) => {
-    if (err) res.status(500).json({ message: 'Internal Server error' });
+    if (err) res.status(500).json({ msg: 'Internal Server error' });
     res.status(201).json({ token });
   });
 }

@@ -4,17 +4,21 @@ import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import config from '../../config';
 
-export default async function login(req: Request, response: Response) {
-  const { email, password } = req.body;
+export default async function login(req: Request, res: Response) {
+  const { username, password } = req.body;
 
-  const user = await User.findOne({ email });
+  if (!username || !password) {
+    return res.status(400).json({ message: 'All fields are required!' });
+  }
+
+  const user = await User.findOne({ username });
   if (!user) {
-    return response.status(400).json({ msg: 'User does not exist' });
+    return res.status(400).json({ message: 'User does not exist' });
   }
 
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
-    return response.status(400).json({ msg: 'Invalid credentials' });
+    return res.status(400).json({ message: 'Invalid credentials' });
   }
 
   const payload = {
@@ -24,7 +28,7 @@ export default async function login(req: Request, response: Response) {
   };
 
   jwt.sign(payload, config.get('jwtSecret'), {}, (err, token) => {
-    if (err) response.status(500).json({ msg: 'Internal Server error' });
-    response.status(201).json({ token });
+    if (err) res.status(500).json({ message: 'Internal Server error' });
+    res.status(201).json({ token });
   });
 }

@@ -1,4 +1,5 @@
 import { Router } from 'express';
+import { getPostForUser } from '../../controllers/post';
 import {
   deleteProfile,
   getProfile,
@@ -15,6 +16,8 @@ import followUser, {
 const userRouter = Router();
 
 userRouter.get('/profile', getProfile);
+userRouter.get('/profile/post', getPostForUser);
+userRouter.get('/profile/:id/post', getPostForUser);
 userRouter.get('/profile/:id', getProfilebById);
 userRouter.put('/profile', updateProfile);
 userRouter.delete('/profile', deleteProfile);

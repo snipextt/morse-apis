@@ -57,3 +57,11 @@ export async function deletePost(req: Request, res: Response) {
   });
   res.json({ message: 'Post deleted' });
 }
+
+export async function getPostForUser(req: Request, res: Response) {
+  const { id } = req.params;
+  const { user } = req as any;
+  const posts = await Post.find({ user: id || user._id });
+  const totalPostCount = await Post.find({ user: id || user._id }).count();
+  res.json({ posts, count: totalPostCount });
+}

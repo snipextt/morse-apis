@@ -6,16 +6,14 @@ import { putObject } from '../../utils';
 
 export async function getProfile(req: Request, res: Response) {
   const { user } = req as any;
-  const posts = await Post.find({ user: user._id });
-  res.json({ user, posts });
+  res.json({ user });
 }
 
 export async function getProfilebById(req: Request, res: Response) {
   const { id } = req.params;
   const user = await User.findById(id);
   if (!user) return res.status(400).json({ message: 'User does not exist' });
-  const posts = await Post.find({ user: user._id });
-  res.json({ user, posts });
+  res.json({ user });
 }
 
 export async function updateProfile(req: Request, res: Response) {

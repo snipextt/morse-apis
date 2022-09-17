@@ -1,4 +1,5 @@
 import { Document, model, Schema } from 'mongoose';
+import { onBoardingState } from '../../constants/onboarding';
 
 export interface IUser extends Document {
   name?: string;
@@ -11,6 +12,7 @@ export interface IUser extends Document {
   bio?: string;
   city?: string;
   from?: string;
+  onBoardingState: onBoardingState;
   relationship?: 1 | 2 | 3;
 }
 
@@ -29,8 +31,6 @@ const UserSchema = new Schema<IUser>(
     },
     email: {
       type: String,
-      required: true,
-      max: 50,
       unique: true,
     },
     password: {
@@ -67,6 +67,11 @@ const UserSchema = new Schema<IUser>(
     relationship: {
       type: Number,
       enum: [1, 2, 3],
+    },
+    onBoardingState: {
+      type: String,
+      enum: Object.keys(onBoardingState),
+      default: onBoardingState.onBoarding,
     },
   },
   { timestamps: true }

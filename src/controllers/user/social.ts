@@ -20,11 +20,11 @@ export async function unfollowUser(req: Request, res: Response) {
   const userToUnfollow = await User.findById(id)!;
   if (!userToUnfollow)
     return res.status(400).json({ message: 'User does not exist' });
-  user.following.followings.filter(
+  user.followings = user.followings.filter(
     (following: any) => following.toString() !== userToUnfollow._id.toString()
   );
   await user.save();
-  (userToUnfollow.followers as string[])!.filter(
+  userToUnfollow.followers = (userToUnfollow.followers as string[])!.filter(
     (follower: string) => follower.toString() !== user._id.toString()
   );
   await userToUnfollow.save();

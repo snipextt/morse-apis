@@ -1,4 +1,5 @@
 import { Request, Response } from 'express';
+import { isValidObjectId } from 'mongoose';
 import { Comment } from '../../db/models/Comment';
 import { Post } from '../../db/models/Post';
 import { User } from '../../db/models/User';
@@ -11,9 +12,27 @@ export async function getProfile(req: Request, res: Response) {
 
 export async function getProfilebById(req: Request, res: Response) {
   const { id } = req.params;
-  const user = await User.findById(id);
+  if (!isValidObjectId(id))
+    return res.status(400).json({ msg: 'Invalid user id' });
+  const user = await User.findOne({ _id: id });
   if (!user) return res.status(400).json({ message: 'User does not exist' });
   res.json({ user });
+}
+
+export async function searchUsersByUsername(req: Request, res: Response) {
+  const { username } = req.params;
+  const users = await User.find(
+    {
+      username: { $regex: username, $options: 'i' },
+      _id: { $ne: (req as any).user._id },
+    },
+    {
+      username: 1,
+      name: 1,
+      profilePicture: 1,
+    }
+  );
+  res.json({ users });
 }
 
 export async function updateProfile(req: Request, res: Response) {

@@ -29,6 +29,6 @@ export default async function login(req: Request, res: Response) {
 
   jwt.sign(payload, config.get('jwtSecret'), {}, (err, token) => {
     if (err) res.status(500).json({ msg: 'Internal Server error' });
-    res.status(201).json({ token });
+    res.status(201).json({ token, userId: user.id });
   });
 }

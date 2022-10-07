@@ -13,7 +13,6 @@ export interface IUser extends Document {
   city?: string;
   from?: string;
   onBoardingState: onBoardingState;
-  relationship?: 1 | 2 | 3;
 }
 
 const UserSchema = new Schema<IUser>(
@@ -63,10 +62,6 @@ const UserSchema = new Schema<IUser>(
     from: {
       type: String,
       max: 50,
-    },
-    relationship: {
-      type: Number,
-      enum: [1, 2, 3],
     },
     onBoardingState: {
       type: String,

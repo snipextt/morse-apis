@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import { Comment, IComment } from '../../db/models/Comment';
+import { Notification } from '../../db/models/Notification';
 import { Post } from '../../db/models/Post';
 
 export async function createComment(req: Request, res: Response) {
@@ -17,6 +18,17 @@ export async function createComment(req: Request, res: Response) {
   });
   await comment.save();
   res.status(200).json({ comment });
+  if (user._id.toString() !== post.user.toString()) {
+    const notification = new Notification({
+      user: post.user,
+      message: `${user.name} commented on your post`,
+      meta: {
+        type: 'comment',
+        post: post._id,
+      },
+    });
+    await notification.save();
+  }
 }
 
 export async function getCommentsOnPost(req: Request, res: Response) {
@@ -31,18 +43,20 @@ export async function getCommentsOnPost(req: Request, res: Response) {
       userCommentsOnCurrentPost = await Comment.find({
         user: user._id,
         post: id,
-      });
+      })
+        .populate('user', 'username profilePicture')
+        .sort({ createdAt: -1 });
+
     const comments = await Comment.find({ post: id, user: { $ne: user._id } })
-      .skip((+page - 1) * +perPage)
-      .limit(+perPage)
+      .populate('user', 'username profilePicture')
+      // .skip((+page - 1) * +perPage)
+      // .limit(+perPage)
       .sort({ createdAt: -1 });
-    const totalCommentsCount = await Comment.count({ post: id }).count();
-    res
-      .status(200)
-      .json({
-        comments: [...userCommentsOnCurrentPost, ...comments],
-        totalComments: totalCommentsCount,
-      });
+    // const totalCommentsCount = await Comment.count({ post: id }).count();
+    console.log(comments);
+    res.status(200).json({
+      comments: [...userCommentsOnCurrentPost, ...comments],
+    });
   } catch (error) {
     res.status(400).json({ message: 'Invalid query' });
   }

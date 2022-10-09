@@ -10,8 +10,13 @@ export interface IUser extends Document {
   followers?: IUser[] | string[];
   followings?: IUser[] | string[];
   bio?: string;
-  city?: string;
-  from?: string;
+  phoneNumber?: string;
+  college?: string;
+  branch?: string;
+  currentAcademicStatus?: string;
+  registrationNumber?: string;
+  gender?: string;
+  dob?: Date;
   onBoardingState: onBoardingState;
 }
 
@@ -55,18 +60,31 @@ const UserSchema = new Schema<IUser>(
       type: String,
       max: 50,
     },
-    city: {
-      type: String,
-      max: 50,
-    },
-    from: {
-      type: String,
-      max: 50,
-    },
     onBoardingState: {
       type: String,
       enum: Object.keys(onBoardingState),
       default: onBoardingState.onBoarding,
+    },
+    phoneNumber: {
+      type: String,
+    },
+    college: {
+      type: String,
+    },
+    branch: {
+      type: String,
+    },
+    currentAcademicStatus: {
+      type: String,
+    },
+    registrationNumber: {
+      type: String,
+    },
+    gender: {
+      type: String,
+    },
+    dob: {
+      type: Date,
     },
   },
   { timestamps: true }

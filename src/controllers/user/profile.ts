@@ -63,5 +63,20 @@ export async function uploadProfilePicture(req: Request, res: Response) {
   );
   user.profilePicture = uploadRes.Location;
   await user.save();
-  res.status(200).end();
+  res.status(200).json({
+    url: uploadRes.Location,
+  });
+}
+
+export async function getUserFeed(req: Request, res: Response) {
+  const { user } = req as any;
+  const posts = await Post.find({
+    user: { $in: user.followings },
+    createdAt: {
+      $gte: new Date(new Date().getTime() - 10 * 24 * 60 * 60 * 1000),
+    },
+  })
+    .populate('user', 'username profilePicture')
+    .sort({ createdAt: -1 });
+  res.json({ posts });
 }

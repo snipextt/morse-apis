@@ -8,6 +8,7 @@ export interface Story extends Document {
   createdAt: Date;
   updatedAt: Date;
   backgroundColor: string;
+  caption: string;
 }
 
 const storySchema = new Schema<Story>(
@@ -16,6 +17,7 @@ const storySchema = new Schema<Story>(
     media: { type: String, required: true },
     mediaType: { type: String, required: true },
     backgroundColor: { type: String },
+    caption: { type: String },
   },
   {
     timestamps: true,

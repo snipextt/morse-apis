@@ -2,7 +2,6 @@ import { Document, model, Schema } from 'mongoose';
 import { IUser } from './User';
 
 export interface IPost extends Document {
-  title: string;
   caption: string;
   imageUrl: string;
   createdAt: Date;
@@ -13,7 +12,6 @@ export interface IPost extends Document {
 
 const PostSchema = new Schema<IPost>(
   {
-    title: { type: String, required: true },
     caption: { type: String, required: true },
     imageUrl: { type: String, required: true },
     likes: { type: [Schema.Types.ObjectId], ref: 'User', default: [] },

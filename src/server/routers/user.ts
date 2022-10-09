@@ -4,6 +4,7 @@ import {
   deleteProfile,
   getProfile,
   getProfilebById,
+  getUserFeed,
   searchUsersByUsername,
   updateProfile,
   uploadProfilePicture,
@@ -28,5 +29,6 @@ userRouter.post('/follow/:id', followUser);
 userRouter.post('/unfollow/:id', unfollowUser);
 userRouter.get('/followers/:id', getFollowers);
 userRouter.get('/followings/:id', getFollowings);
+userRouter.get('/feed', getUserFeed);
 
 export default userRouter;

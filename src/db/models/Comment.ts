@@ -1,6 +1,7 @@
 import { model, Schema } from 'mongoose';
 import { IPost } from './Post';
 import { IUser } from './User';
+import { Notification } from './Notification';
 
 export interface IComment extends Document {
   user: IUser | string;
